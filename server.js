@@ -8,7 +8,15 @@ const sqlite3 = require("sqlite3").verbose();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const db = new sqlite3.Database("./truetech.db");
+const dbPath = path.join(__dirname, "truetech.db");
+
+const db = new sqlite3.Database(dbPath, (err) => {
+  if (err) {
+    console.error("Erro ao abrir banco:", err);
+  } else {
+    console.log("Banco SQLite aberto com sucesso em:", dbPath);
+  }
+});
 
 const uploadsDir = path.join(__dirname, "public", "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -24,6 +32,18 @@ const storage = multer.diskStorage({
     cb(null, uniqueName);
   }
 });
+
+
+process.on("uncaughtException", (err) => {
+  console.error("ERRO NÃO TRATADO:", err);
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("PROMISE REJEITADA:", err);
+});
+
+console.log("Iniciando servidor...");
+
 
 const upload = multer({ storage });
 
