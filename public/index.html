@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Truetech</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f5f5f7;
+      --card:rgba(255,255,255,.8);
+      --text:#1d1d1f;
+      --muted:#6e6e73;
+      --line:rgba(0,0,0,.08);
+      --primary:#0071e3;
+      --primary-hover:#0062c3;
+      --dark:#111;
+      --danger:#d92d20;
+      --success:#137333;
+      --warning:#9a6700;
+      --blue-soft:#e8f0fe;
+      --green-soft:#e8fff1;
+      --yellow-soft:#fff4d6;
+      --purple-soft:#efe7ff;
+      --purple:#6f42c1;
+      --radius-2xl:34px;
+      --radius-xl:28px;
+      --radius-pill:999px;
+      --shadow-soft:0 12px 40px rgba(0,0,0,.08);
+      --shadow-hover:0 24px 60px rgba(0,0,0,.12);
+    }
+    html{scroll-behavior:smooth}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;
+      color:var(--text);
+      background:radial-gradient(circle at top,#fff 0%,#eef2f7 32%,#f5f5f7 70%);
+    }
+    a{text-decoration:none;color:inherit}
+    button,input,textarea,select{font:inherit}
+    button{cursor:pointer}
+    .hidden{display:none !important}
+
+    header{
+      position:sticky;top:0;z-index:1000;
+      background:rgba(255,255,255,.72);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--line);
+    }
+    .nav{
+      max-width:1320px;margin:0 auto;padding:16px 24px;
+      display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    }
+    .logo{font-size:30px;font-weight:700;letter-spacing:-.8px}
+    .menu{display:flex;gap:18px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:15px}
+    .menu a{transition:.2s ease}
+    .menu a:hover{color:var(--text)}
+    .menu-link-btn{background:none;border:none;color:inherit;cursor:pointer;padding:0}
+    .menu-link-btn:hover{color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    #areaUsuario{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;font-weight:500}
+    #areaUsuario button{
+      border:none;background:var(--dark);color:#fff;padding:10px 15px;border-radius:999px;
+      font-weight:600;transition:.2s;
+    }
+    #areaUsuario button:hover{transform:translateY(-1px);opacity:.95}
+
+    .cart-top{
+      position:relative;width:46px;height:46px;border-radius:999px;background:rgba(255,255,255,.9);
+      border:1px solid rgba(0,0,0,.06);box-shadow:0 10px 24px rgba(0,0,0,.08);
+      display:flex;align-items:center;justify-content:center;transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .cart-top:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(0,0,0,.12)}
+    .cart-top-icon{font-size:20px;line-height:1}
+    .cart-badge{
+      position:absolute;top:-6px;right:-6px;min-width:22px;height:22px;padding:0 6px;border-radius:999px;
+      background:var(--primary);color:white;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;
+      box-shadow:0 8px 18px rgba(0,113,227,.28);transform:scale(1);
+    }
+    .cart-badge.animar{animation:badgePulse .55s ease}
+    @keyframes badgePulse{0%{transform:scale(1)}45%{transform:scale(1.28)}100%{transform:scale(1)}}
+
+    .hero{max-width:1320px;margin:0 auto;padding:110px 20px 72px;text-align:center}
+    .hero h1{font-size:clamp(44px,7vw,88px);line-height:.94;letter-spacing:-2.8px;margin-bottom:18px;font-weight:700}
+    .hero p{max-width:860px;margin:0 auto 28px;font-size:clamp(18px,2vw,25px);color:var(--muted);line-height:1.45}
+    .hero-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:36px}
+    .hero-panel{
+      background:rgba(255,255,255,.68);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.65);
+      box-shadow:var(--shadow-soft);border-radius:var(--radius-2xl);padding:22px;max-width:1100px;margin:0 auto;
+    }
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch}
+    .hero-showcase,.hero-side{
+      background:linear-gradient(180deg,rgba(255,255,255,.78),rgba(245,245,247,.88));
+      border:1px solid rgba(0,0,0,.04);border-radius:28px;padding:28px;text-align:left;
+    }
+    .hero-showcase h3,.hero-side h3{font-size:28px;letter-spacing:-.8px;margin-bottom:10px}
+    .hero-showcase p,.hero-side p{margin:0;color:var(--muted);font-size:16px;line-height:1.7}
+    .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:20px}
+    .stat{background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.05);border-radius:20px;padding:18px}
+    .stat strong{display:block;font-size:24px;letter-spacing:-.6px;margin-bottom:5px}
+    .stat span{color:var(--muted);font-size:13px}
+
+    .section{max-width:1320px;margin:0 auto;padding:46px 20px 78px}
+    .section-title{text-align:center;margin-bottom:34px}
+    .section-title h2{font-size:clamp(34px,4vw,52px);letter-spacing:-1.5px;margin-bottom:10px}
+    .section-title p{font-size:20px;color:var(--muted)}
+
+    .btn{
+      border:none;border-radius:999px;padding:13px 22px;display:inline-flex;align-items:center;justify-content:center;
+      gap:8px;font-weight:600;transition:.2s ease;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:var(--primary);color:#fff}
+    .btn-primary:hover{background:var(--primary-hover)}
+    .btn-dark{background:var(--dark);color:#fff}
+    .btn-dark:hover{opacity:.95}
+    .btn-danger{background:var(--danger);color:#fff}
+    .btn-green{background:#198754;color:#fff}
+    .btn-secondary{background:#eef1f5;color:#111}
+
+    .filters-bar{
+      display:grid;grid-template-columns:1.2fr .75fr .75fr auto auto;
+      gap:12px;max-width:1120px;margin:0 auto 28px;background:rgba(255,255,255,.72);
+      border:1px solid rgba(255,255,255,.65);backdrop-filter:blur(18px);
+      box-shadow:var(--shadow-soft);border-radius:26px;padding:14px;
+    }
+    .filter-chip-btn{
+      border:none;border-radius:999px;padding:0 18px;background:#111;color:#fff;font-weight:600;min-height:52px;
+    }
+    .filter-chip-secondary{background:#eceff3;color:#111}
+
+    .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:26px}
+    .card,.box,.order-card,.settings-card,.auth-card{
+      background:var(--card);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.65);box-shadow:var(--shadow-soft);
+    }
+    .card{
+      border-radius:var(--radius-2xl);padding:18px;text-align:center;transition:.25s ease;position:relative;overflow:hidden;
+    }
+    .card:hover{transform:translateY(-8px);box-shadow:var(--shadow-hover)}
+    .card.animando{transform:translateY(-10px) scale(1.02);box-shadow:0 30px 70px rgba(0,0,0,.16)}
+    .card::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.18),transparent 26%);pointer-events:none}
+    .card img{width:100%;height:255px;object-fit:cover;border-radius:24px;margin-bottom:18px;background:#ececec}
+    .card h3{font-size:29px;letter-spacing:-.8px;margin-bottom:10px}
+    .card p{color:var(--muted);line-height:1.55;min-height:52px;margin-bottom:14px;font-size:15px}
+    .price{font-size:30px;font-weight:700;letter-spacing:-.9px;margin-bottom:14px}
+    .card button,.card select{width:100%;border:none;padding:13px 16px;border-radius:999px;margin-top:10px;font-weight:600}
+    .card select{background:#f1f3f6;color:var(--text);border:1px solid var(--line)}
+    .no-products{
+      grid-column:1 / -1;text-align:center;padding:42px 18px;border-radius:28px;background:rgba(255,255,255,.72);
+      border:1px solid rgba(255,255,255,.65);box-shadow:var(--shadow-soft);color:var(--muted);font-size:18px;
+    }
+
+    .box{border-radius:var(--radius-2xl);padding:28px}
+    .box h3{font-size:30px;letter-spacing:-.8px;margin-bottom:14px}
+    .box p{color:var(--muted);line-height:1.75;font-size:16px}
+    .two-cols{display:grid;grid-template-columns:1.1fr .9fr;gap:24px}
+
+    .user-box,.cart-box{
+      margin-top:16px;padding:18px;border-radius:20px;background:rgba(245,245,247,.92);
+      border:1px solid rgba(0,0,0,.05);color:var(--text);
+    }
+    .cart-box.destacado{animation:pulseCarrinho .8s ease}
+    .cart-item{display:flex;justify-content:space-between;gap:14px;padding:16px 0;border-bottom:1px solid var(--line);align-items:flex-start}
+    .cart-item:last-child{border-bottom:none}
+    .cart-summary{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);font-size:22px;font-weight:700;letter-spacing:-.6px}
+    .cart-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .qty-btn{width:auto !important;min-width:36px;padding:8px 12px !important;border-radius:999px !important;background:#eceff3;color:#111;font-weight:700}
+    .remove-btn{width:auto !important;padding:8px 14px !important;border-radius:999px !important;background:#fff1f1;color:#b42318;font-weight:700}
+
+    .admin-box{display:none}
+    .admin-box.show{display:block}
+    .admin-panel-header{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+    .helper-text{font-size:14px;color:var(--muted)}
+    .admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;justify-content:center}
+    .admin-actions button,.admin-actions select{width:auto;padding:10px 14px;margin-top:0}
+
+    .orders-grid{display:grid;gap:18px}
+    .order-card{border-radius:var(--radius-2xl);padding:24px;transition:.2s ease}
+    .order-card:hover{transform:translateY(-3px)}
+    .order-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+    .order-client{font-size:15px;color:var(--muted);line-height:1.6;margin-top:6px}
+    .badge{display:inline-flex;align-items:center;justify-content:center;padding:8px 13px;border-radius:999px;font-weight:700;font-size:13px;text-transform:capitalize;letter-spacing:.2px}
+    .badge-pendente{background:var(--yellow-soft);color:var(--warning)}
+    .badge-pago{background:#e7f7ec;color:var(--success)}
+    .badge-enviado{background:var(--blue-soft);color:#1557b0}
+    .badge-entregue{background:var(--purple-soft);color:var(--purple)}
+    .order-meta{display:flex;flex-wrap:wrap;gap:18px;color:var(--muted);font-size:14px;margin-bottom:14px}
+    .order-items{margin-top:10px;padding-top:14px;border-top:1px solid var(--line);color:#555;line-height:1.85}
+
+    input,textarea,select{
+      width:100%;padding:15px 16px;margin-bottom:12px;border-radius:18px;border:1px solid rgba(0,0,0,.08);
+      background:rgba(255,255,255,.92);color:var(--text);outline:none;transition:.2s;
+    }
+    input:focus,textarea:focus,select:focus{
+      border-color:rgba(0,113,227,.5);box-shadow:0 0 0 4px rgba(0,113,227,.12);
+    }
+    textarea{resize:vertical;min-height:120px}
+    .submit-btn{
+      width:100%;padding:15px;border:none;border-radius:999px;background:var(--dark);color:white;font-weight:600;transition:.2s;
+    }
+    .submit-btn:hover{transform:translateY(-1px);opacity:.95}
+    .status{margin-top:14px;padding:14px;border-radius:18px;display:none;font-size:14px;font-weight:500}
+    .status.show{display:block}
+    .success{background:var(--green-soft);color:var(--success)}
+    .error{background:#fff1f1;color:#b42318}
+
+    .toast-login{
+      position:fixed;top:90px;left:50%;transform:translateX(-50%) translateY(-20px) scale(.95);
+      background:rgba(28,28,30,.92);color:#fff;padding:16px 18px;border-radius:22px;font-size:15px;font-weight:600;
+      box-shadow:0 20px 50px rgba(0,0,0,.25);backdrop-filter:blur(16px);opacity:0;transition:all .35s ease;z-index:9999;
+      pointer-events:none;min-width:min(92vw,360px);
+    }
+    .toast-login.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1);pointer-events:auto}
+    .toast-login-content{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .toast-login-text{line-height:1.4;flex:1}
+    .toast-login-btn{
+      border:none;border-radius:999px;background:#fff;color:#111;font-weight:700;padding:10px 14px;min-width:88px;
+      pointer-events:auto;box-shadow:0 8px 20px rgba(255,255,255,.18);
+    }
+
+    .toast-carrinho{
+      position:fixed;top:90px;right:24px;background:rgba(28,28,30,.92);color:#fff;padding:14px 18px;border-radius:18px;
+      font-size:14px;font-weight:600;box-shadow:0 18px 40px rgba(0,0,0,.22);backdrop-filter:blur(14px);z-index:9999;
+      opacity:0;transform:translateY(-16px) scale(.96);pointer-events:none;transition:opacity .35s ease, transform .35s ease;
+    }
+    .toast-carrinho.show{opacity:1;transform:translateY(0) scale(1)}
+
+    .fly-layer{position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden}
+    .fly-image{
+      position:fixed;width:110px;height:110px;object-fit:cover;border-radius:20px;box-shadow:0 18px 35px rgba(0,0,0,.22);z-index:9998;
+      transition:transform 1.2s cubic-bezier(.18,.8,.22,1),left 1.2s cubic-bezier(.18,.8,.22,1),top 1.2s cubic-bezier(.18,.8,.22,1),opacity 1.2s ease,width 1.2s ease,height 1.2s ease;
+    }
+
+    .checkout-modal-overlay{
+      position:fixed;inset:0;background:rgba(15,15,18,.42);backdrop-filter:blur(10px);z-index:9997;opacity:0;pointer-events:none;transition:opacity .28s ease;
+    }
+    .checkout-modal-overlay.show{opacity:1;pointer-events:auto}
+    .checkout-modal{
+      position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);width:min(92vw,620px);
+      background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.7);box-shadow:0 30px 70px rgba(0,0,0,.18);
+      backdrop-filter:blur(22px);border-radius:30px;padding:24px;opacity:0;pointer-events:none;transition:opacity .28s ease, transform .28s ease;z-index:9998;
+    }
+    .checkout-modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+    .checkout-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .checkout-title{font-size:30px;letter-spacing:-.8px}
+    .checkout-close{width:42px;height:42px;border-radius:999px;background:#eef1f5;color:#111;font-size:20px}
+    .checkout-subtitle{color:var(--muted);line-height:1.55;margin-bottom:16px}
+    .checkout-items{max-height:280px;overflow:auto;padding-right:4px;margin-bottom:14px}
+    .checkout-line{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+    .checkout-meta{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 18px}
+    .checkout-chip{padding:10px 14px;border-radius:999px;background:#eef2f6;color:#111;font-size:13px;font-weight:600}
+    .checkout-total{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid var(--line);font-size:24px;font-weight:700;letter-spacing:-.6px}
+    .checkout-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+    .checkout-secondary{background:#eef1f5;color:#111}
+
+
+    .products-overlay{
+      position:fixed;inset:0;background:rgba(15,15,18,.48);backdrop-filter:blur(12px);z-index:10000;display:none;align-items:center;justify-content:center;padding:18px;
+    }
+    .products-overlay.show{display:flex}
+    .products-card{
+      width:min(94vw,1220px);max-height:92vh;overflow:auto;border-radius:30px;padding:26px;
+      background:rgba(255,255,255,.92);backdrop-filter:blur(22px);box-shadow:0 30px 70px rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.75);animation:modalIn .25s ease;
+    }
+    .products-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:20px}
+    .products-title{font-size:32px;letter-spacing:-1px}
+    .products-subtitle{color:var(--muted);line-height:1.6;margin-top:8px}
+    .products-close{width:42px;height:42px;border:none;border-radius:999px;background:#eef1f5}
+    .products-modal-grid{display:grid;gap:22px}
+
+    .auth-overlay{
+      position:fixed;inset:0;background:rgba(15,15,18,.48);backdrop-filter:blur(12px);z-index:10001;display:none;align-items:center;justify-content:center;padding:18px;
+    }
+    .auth-overlay.show{display:flex}
+    .auth-card{
+      width:min(92vw,860px);border-radius:30px;padding:26px;animation:modalIn .25s ease;
+      background:rgba(255,255,255,.9);backdrop-filter:blur(22px);
+    }
+    @keyframes modalIn{
+      from{opacity:0;transform:translateY(12px) scale(.98)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+    .auth-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:20px}
+    .auth-title{font-size:32px;letter-spacing:-1px}
+    .auth-subtitle{color:var(--muted);line-height:1.6;margin-top:8px}
+    .auth-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .auth-card-inner{border-radius:26px;padding:22px;background:rgba(245,245,247,.92);border:1px solid rgba(0,0,0,.05)}
+    .auth-card-inner h3{font-size:24px;letter-spacing:-.6px;margin-bottom:8px}
+    .auth-card-inner p{color:var(--muted);line-height:1.6;margin-bottom:14px}
+    .auth-close{width:42px;height:42px;border:none;border-radius:999px;background:#eef1f5}
+
+    .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .settings-card{border-radius:var(--radius-2xl);padding:24px}
+    .settings-card h3{font-size:28px;letter-spacing:-.8px;margin-bottom:12px}
+    .settings-preview{background:#f7f8fa;border:1px solid rgba(0,0,0,.05);padding:18px;border-radius:20px;color:var(--muted);line-height:1.75}
+    .settings-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .settings-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .settings-note{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.6}
+
+    .pressable{transform:scale(1)}
+    .pressable.is-pressed{transform:scale(.97);filter:brightness(.98)}
+
+    footer{text-align:center;padding:34px 20px 54px;color:var(--muted);font-size:14px}
+
+    @media (max-width:980px){
+      .hero-grid,.two-cols,.settings-grid,.auth-grid,.filters-bar{grid-template-columns:1fr}
+      .cart-item,.checkout-actions,.settings-row{grid-template-columns:1fr}
+      .cart-item{flex-direction:column}
+      .checkout-actions{display:grid}
+    }
+    @media (max-width:720px){
+      .nav{padding:14px 16px}
+      .section,.hero{padding-left:14px;padding-right:14px}
+      .section{padding-top:36px;padding-bottom:60px}
+      .hero{padding-top:88px;padding-bottom:56px}
+      .hero-stats{grid-template-columns:1fr}
+      .toast-carrinho{right:14px;left:14px;top:84px}
+    }
+  </style>
+</head>
+<body>
+  <div id="toastLogin" class="toast-login"></div>
+  <div id="toastCarrinho" class="toast-carrinho"></div>
+  <div id="flyLayer" class="fly-layer"></div>
+
+  <div id="checkoutOverlay" class="checkout-modal-overlay" onclick="fecharCheckoutModal()"></div>
+  <div id="checkoutModal" class="checkout-modal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="checkout-header">
+      <div>
+        <h3 id="checkoutTitle" class="checkout-title">Revisar pedido</h3>
+        <p class="checkout-subtitle">Confira tudo antes de enviar para o WhatsApp.</p>
+      </div>
+      <button class="checkout-close pressable" onclick="fecharCheckoutModal()">×</button>
+    </div>
+    <div id="checkoutItems" class="checkout-items"></div>
+    <div id="checkoutMeta" class="checkout-meta"></div>
+    <div class="checkout-total">
+      <span>Total</span>
+      <span id="checkoutTotal">R$ 0,00</span>
+    </div>
+    <div class="checkout-actions">
+      <button class="btn checkout-secondary pressable" onclick="copiarPedidoCheckout()">Copiar pedido</button>
+      <button class="btn checkout-secondary pressable" onclick="fecharCheckoutModal()">Continuar comprando</button>
+      <button class="btn btn-primary pressable" onclick="confirmarPedidoWhatsApp()">Enviar no WhatsApp</button>
+    </div>
+  </div>
+
+
+  <div id="productsOverlay" class="products-overlay">
+    <div class="products-card">
+      <div class="products-head">
+        <div>
+          <h2 class="products-title">Produtos</h2>
+          <p class="products-subtitle">Catálogo em uma aba separada, igual à área de acesso.</p>
+        </div>
+        <button class="products-close pressable" onclick="fecharAbaProdutos()">×</button>
+      </div>
+
+      <div class="products-modal-grid">
+        <div class="filters-bar" style="max-width:none;margin:0;">
+          <input type="text" id="buscaProduto" placeholder="Buscar por nome ou descrição">
+          <input type="number" id="filtroPreco" placeholder="Preço máximo" step="0.01" min="0">
+          <select id="ordenacaoProduto">
+            <option value="relevancia">Ordenar</option>
+            <option value="menor-preco">Menor preço</option>
+            <option value="maior-preco">Maior preço</option>
+            <option value="nome-az">Nome A-Z</option>
+          </select>
+          <button class="filter-chip-btn pressable" onclick="aplicarFiltrosProdutos()">Filtrar</button>
+          <button class="filter-chip-btn filter-chip-secondary pressable" onclick="limparFiltrosProdutos()">Limpar</button>
+        </div>
+        <div class="products" id="listaProdutos"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="authOverlay" class="auth-overlay">
+    <div class="auth-card">
+      <div class="auth-head">
+        <div>
+          <h2 class="auth-title">Área de acesso</h2>
+          <p class="auth-subtitle">Login e cadastro agora ficam em uma área separada da página principal.</p>
+        </div>
+        <button class="auth-close pressable" onclick="fecharAreaAcesso()">×</button>
+      </div>
+
+      <div class="auth-grid">
+        <div class="auth-card-inner">
+          <h3>Entrar</h3>
+          <p>Use sua conta para finalizar pedidos e acessar seu perfil.</p>
+          <input type="email" id="authLoginEmail" placeholder="Seu e-mail">
+          <input type="password" id="authLoginSenha" placeholder="Sua senha">
+          <button class="submit-btn" onclick="fazerLoginPeloAcesso()">Entrar</button>
+        </div>
+
+        <div class="auth-card-inner">
+          <h3>Criar conta</h3>
+          <p>Cadastre-se para salvar suas preferências e concluir pedidos com mais rapidez.</p>
+          <input type="text" id="authCadastroNome" placeholder="Seu nome">
+          <input type="email" id="authCadastroEmail" placeholder="Seu e-mail">
+          <input type="password" id="authCadastroSenha" placeholder="Crie uma senha">
+          <button class="submit-btn" onclick="criarContaPeloAcesso()">Criar conta</button>
+        </div>
+      </div>
+
+      <div id="statusAuth" class="status"></div>
+    </div>
+  </div>
+
+  <header>
+    <div class="nav">
+      <div class="logo">Truetech</div>
+      <nav class="menu">
+        <a href="#inicio">Início</a>
+        <button type="button" class="menu-link-btn" onclick="abrirAbaProdutos()">Produtos</button>
+        <a href="#carrinho">Carrinho</a>
+        <a href="#configuracoes">Conta</a>
+        <a href="#admin" id="navAdminLink" class="hidden">Admin</a>
+        <a href="#pedidos">Pedidos</a>
+      </nav>
+      <div class="nav-right">
+        <div id="areaUsuario"></div>
+        <div class="cart-top" onclick="document.getElementById('carrinho').scrollIntoView({ behavior: 'smooth' })">
+          <span class="cart-top-icon">🛒</span>
+          <span id="cartBadge" class="cart-badge">0</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" id="inicio">
+    <h1>Tecnologia com estilo.<br>Gestão com presença.</h1>
+    <p>Loja da Truetech com experiência premium, carrinho, checkout, painel admin e área de conta em uma interface mais limpa, moderna e sofisticada.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" onclick="abrirAbaProdutos()">Ver produtos</button>
+      <button class="btn btn-dark" onclick="abrirAreaAcesso()">Entrar / cadastrar</button>
+    </div>
+    <div class="hero-panel">
+      <div class="hero-grid">
+        <div class="hero-showcase">
+          <h3>Painel visualmente premium</h3>
+          <p>Um layout mais elegante, com foco em clareza, marca e sensação de produto profissional. Tudo integrado no mesmo ambiente: catálogo, conta, admin e pedidos.</p>
+          <div class="hero-stats">
+            <div class="stat"><strong>Loja</strong><span>Catálogo refinado</span></div>
+            <div class="stat"><strong>Conta</strong><span>Acesso separado</span></div>
+            <div class="stat"><strong>Pedidos</strong><span>Status claros</span></div>
+          </div>
+        </div>
+        <div class="hero-side">
+          <h3>Experiência unificada</h3>
+          <p>A Truetech agora passa uma impressão mais forte de marca. Menos aparência de sistema comum, mais sensação de painel premium.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="produtos">
+    <div class="section-title">
+      <h2>Produtos</h2>
+      <p>Agora o catálogo abre em uma aba separada, sem misturar com o restante da página.</p>
+    </div>
+    <div class="box" style="text-align:center;">
+      <h3 style="margin-bottom:10px;">Abrir catálogo</h3>
+      <p style="max-width:720px;margin:0 auto 18px;">Toque no botão abaixo para abrir a aba de produtos no mesmo estilo da área de login.</p>
+      <button class="btn btn-primary pressable" onclick="abrirAbaProdutos()">Abrir produtos</button>
+    </div>
+  </section>
+
+  <section class="section" id="carrinho">
+    <div class="section-title">
+      <h2>Carrinho</h2>
+      <p>Visual refinado para revisão rápida antes de fechar a compra.</p>
+    </div>
+    <div class="box">
+      <div class="cart-box" id="cartBox">Seu carrinho está vazio.</div>
+      <br>
+      <button class="btn btn-dark" onclick="finalizarCarrinho()">Finalizar pedido</button>
+    </div>
+  </section>
+
+  <section class="section" id="configuracoes">
+    <div class="section-title">
+      <h2>Conta e configurações</h2>
+      <p>Seu acesso agora fica separado da página principal e suas preferências ficam em uma área própria.</p>
+    </div>
+    <div class="settings-grid">
+      <div class="settings-card">
+        <h3>Minha conta</h3>
+        <div id="settingsAccountPreview" class="settings-preview">Faça login para visualizar sua conta.</div>
+        <div class="settings-actions">
+          <button class="btn btn-primary" onclick="abrirAreaAcesso()">Entrar / cadastrar</button>
+          <button class="btn btn-secondary" onclick="sair()">Sair</button>
+        </div>
+        <div class="settings-note">O acesso foi movido para uma área separada. Use o botão acima para abrir a tela de login/cadastro.</div>
+      </div>
+
+      <div class="settings-card">
+        <h3>Configurações de conta</h3>
+        <h3 style="margin-top:20px;">Segurança da conta</h3>
+
+<input type="email" id="novoEmail" placeholder="Novo e-mail">
+<input type="password" id="novaSenha" placeholder="Nova senha">
+<input type="password" id="senhaAtual" placeholder="Senha atual (obrigatório)">
+
+<button class="btn btn-primary" onclick="atualizarLogin()">Atualizar dados</button>
+<div id="statusLoginUpdate" class="status"></div>
+        <div class="settings-row">
+          <input type="text" id="cfgNomeExibicao" placeholder="Nome de exibição">
+          <input type="text" id="cfgTelefone" placeholder="Telefone">
+        </div>
+        <div class="settings-row">
+          <input type="text" id="cfgCidade" placeholder="Cidade">
+          <select id="cfgTema">
+            <option value="apple">Visual Apple</option>
+            <option value="claro">Claro suave</option>
+            <option value="escuro">Escuro elegante</option>
+          </select>
+        </div>
+        <textarea id="cfgObs" placeholder="Observações para pedidos, referência, preferência de contato..."></textarea>
+        <div class="settings-actions">
+          <button class="btn btn-dark" onclick="salvarConfiguracoesConta()">Salvar configurações</button>
+          <button class="btn btn-secondary" onclick="preencherConfiguracoesConta()">Recarregar</button>
+        </div>
+        <div id="settingsStatus" class="status"></div>
+        <div class="settings-note">Essas configurações são salvas no navegador e ajudam a preencher a sua experiência de conta.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="admin">
+    <div class="section-title">
+      <h2>Painel Admin</h2>
+      <p>Cadastro e edição de produtos com visual mais limpo e premium.</p>
+    </div>
+    <div class="box admin-box" id="adminBox">
+      <div class="admin-panel-header">
+        <h3>Gerenciar produto</h3>
+        <span class="helper-text">Crie, atualize e organize seu catálogo</span>
+      </div>
+      <input type="hidden" id="produtoId">
+      <input type="hidden" id="produtoImagemAtual">
+      <input type="text" id="produtoNome" placeholder="Nome do produto">
+      <textarea id="produtoDescricao" placeholder="Descrição do produto"></textarea>
+      <input type="number" id="produtoPreco" placeholder="Preço" step="0.01">
+      <input type="text" id="produtoImagem" placeholder="Link da imagem (opcional)">
+      <input type="file" id="produtoImagemArquivo" accept="image/*">
+      <button class="submit-btn" id="btnSalvarProduto" onclick="salvarProduto()">Salvar produto</button>
+      <div id="adminStatus" class="status"></div>
+    </div>
+    <div class="box hidden" id="adminBlocked">
+      <h3 style="margin-bottom:10px;">Acesso restrito</h3>
+      <p>Faça login com <strong>admin@truetech.com</strong> para liberar o painel admin.</p>
+    </div>
+  </section>
+
+  <section class="section" id="pedidos">
+    <div class="section-title">
+      <h2>Pedidos</h2>
+      <p>Painel mais bonito, mais organizado e com leitura mais clara dos status.</p>
+    </div>
+    <div class="box" id="pedidosAdminBlocked">
+      <h3 style="margin-bottom:10px;">Acesso restrito</h3>
+      <p>Faça login como admin para ver e gerenciar os pedidos.</p>
+    </div>
+    <div class="orders-grid" id="listaPedidos"></div>
+  </section>
+
+  <footer>© 2026 Truetech. Todos os direitos reservados.</footer>
+
+  <script>
+    let produtosCache = [];
+    let filtroBuscaAtual = "";
+    let filtroPrecoAtual = "";
+    let filtroOrdenacaoAtual = "relevancia";
+    let checkoutPedidoEmAndamento = false;
+
+    function formatarPreco(valor){
+      return `R$ ${Number(valor).toFixed(2).replace(".", ",")}`;
+    }
+
+    function escaparHtml(texto){
+      const div = document.createElement("div");
+      div.textContent = texto ?? "";
+      return div.innerHTML;
+    }
+
+    function pegarUsuario(){
+      return JSON.parse(localStorage.getItem("usuarioLogado"));
+    }
+
+    function salvarUsuario(usuario){
+      localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+    }
+
+    function removerUsuario(){
+      localStorage.removeItem("usuarioLogado");
+    }
+
+    function pegarCarrinho(){
+      return JSON.parse(localStorage.getItem("carrinho")) || [];
+    }
+
+    function salvarCarrinho(carrinho){
+      localStorage.setItem("carrinho", JSON.stringify(carrinho));
+    }
+
+    function pegarConfiguracoesConta(){
+      return JSON.parse(localStorage.getItem("configuracoesConta")) || {};
+    }
+
+    function salvarConfiguracoesBrutas(configs){
+      localStorage.setItem("configuracoesConta", JSON.stringify(configs));
+    }
+
+    function mostrarStatus(mensagem, tipo="success"){
+      const status = document.getElementById("status");
+      if(!status) return;
+      status.textContent = mensagem;
+      status.className = `status show ${tipo}`;
+    }
+
+    function mostrarStatusAuth(mensagem, tipo="success"){
+      const status = document.getElementById("statusAuth");
+      if(!status) return;
+      status.textContent = mensagem;
+      status.className = `status show ${tipo}`;
+    }
+
+    function mostrarAdminStatus(mensagem, tipo="success"){
+      const status = document.getElementById("adminStatus");
+      if(!status) return;
+      status.textContent = mensagem;
+      status.className = `status show ${tipo}`;
+    }
+
+    function mostrarSettingsStatus(mensagem, tipo="success"){
+      const status = document.getElementById("settingsStatus");
+      if(!status) return;
+      status.textContent = mensagem;
+      status.className = `status show ${tipo}`;
+    }
+
+    function mostrarToastLogin(msg, actionText="", actionHandler=null){
+      const toast = document.getElementById("toastLogin");
+      if(!toast) return;
+
+      const botao = actionText ? `<button class="toast-login-btn pressable" id="toastLoginBtn">${actionText}</button>` : "";
+      toast.innerHTML = `
+        <div class="toast-login-content">
+          <div class="toast-login-text">${escaparHtml(msg)}</div>
+          ${botao}
+        </div>
+      `;
+      toast.classList.remove("show");
+      void toast.offsetWidth;
+      toast.classList.add("show");
+
+      const btn = document.getElementById("toastLoginBtn");
+      if(btn && typeof actionHandler === "function"){
+        btn.onclick = actionHandler;
+      }
+
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function feedbackPremium(){
+      try{
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if(AudioContextClass){
+          const ctx = new AudioContextClass();
+          const oscillator = ctx.createOscillator();
+          const gain = ctx.createGain();
+          oscillator.type = "sine";
+          oscillator.frequency.setValueAtTime(880, ctx.currentTime);
+          gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.03, ctx.currentTime + 0.01);
+          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
+          oscillator.connect(gain);
+          gain.connect(ctx.destination);
+          oscillator.start();
+          oscillator.stop(ctx.currentTime + 0.12);
+        }
+      }catch{}
+      if(navigator.vibrate) navigator.vibrate(35);
+    }
+
+    function aplicarEfeitoPressao(){
+      document.querySelectorAll(".pressable").forEach(el => {
+        el.addEventListener("pointerdown", () => el.classList.add("is-pressed"));
+        ["pointerup","pointerleave","pointercancel"].forEach(evt => {
+          el.addEventListener(evt, () => el.classList.remove("is-pressed"));
+        });
+      });
+    }
+
+    function abrirAreaAcesso(){
+      document.getElementById("authOverlay").classList.add("show");
+    }
+
+    function fecharAreaAcesso(){
+      document.getElementById("authOverlay").classList.remove("show");
+    }
+
+    function abrirAbaProdutos(){
+      document.getElementById("productsOverlay").classList.add("show");
+      aplicarFiltrosProdutos();
+    }
+
+    function fecharAbaProdutos(){
+      document.getElementById("productsOverlay").classList.remove("show");
+    }
+
+
+    async function criarContaPeloAcesso(){
+      const nome = document.getElementById("authCadastroNome").value.trim();
+      const email = document.getElementById("authCadastroEmail").value.trim();
+      const senha = document.getElementById("authCadastroSenha").value.trim();
+
+      try{
+        const resposta = await fetch("/api/register", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({nome,email,senha})
+        });
+        const dados = await resposta.json();
+
+        if(!resposta.ok){
+          mostrarStatusAuth(dados.erro || "Erro ao criar conta.", "error");
+          return;
+        }
+
+        salvarUsuario(dados.usuario);
+        const cfg = pegarConfiguracoesConta();
+        if(!cfg.nomeExibicao) cfg.nomeExibicao = dados.usuario.nome;
+        salvarConfiguracoesBrutas(cfg);
+
+        atualizarTopo();
+        atualizarAdmin();
+        atualizarContaPreview();
+        preencherConfiguracoesConta();
+        carregarProdutos();
+        carregarPedidos();
+        mostrarStatusAuth("Conta criada com sucesso.", "success");
+        fecharAreaAcesso();
+      }catch{
+        mostrarStatusAuth("Erro ao criar conta.", "error");
+      }
+    }
+
+    async function fazerLoginPeloAcesso(){
+      const email = document.getElementById("authLoginEmail").value.trim();
+      const senha = document.getElementById("authLoginSenha").value.trim();
+
+      try{
+        const resposta = await fetch("/api/login", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({email,senha})
+        });
+        const dados = await resposta.json();
+
+        if(!resposta.ok){
+          mostrarStatusAuth(dados.erro || "Erro ao fazer login.", "error");
+          return;
+        }
+
+        salvarUsuario(dados.usuario);
+        const cfg = pegarConfiguracoesConta();
+        if(!cfg.nomeExibicao) cfg.nomeExibicao = dados.usuario.nome;
+        salvarConfiguracoesBrutas(cfg);
+
+        atualizarTopo();
+        atualizarAdmin();
+        atualizarContaPreview();
+        preencherConfiguracoesConta();
+        renderizarCarrinho();
+        carregarProdutos();
+        carregarPedidos();
+        mostrarStatusAuth("Login realizado com sucesso.", "success");
+        fecharAreaAcesso();
+      }catch{
+        mostrarStatusAuth("Erro ao fazer login.", "error");
+      }
+    }
+
+    function atualizarTopo(){
+      const area = document.getElementById("areaUsuario");
+      const user = pegarUsuario();
+      const cfg = pegarConfiguracoesConta();
+
+      if(!user){
+        area.innerHTML = `<span>Visitante</span><button onclick="abrirAreaAcesso()">Entrar</button>`;
+        return;
+      }
+
+      const nome = cfg.nomeExibicao || user.nome;
+      area.innerHTML = `<span>Olá, <strong>${escaparHtml(nome)}</strong></span><button onclick="sair()">Sair</button>`;
+    }
+
+    function atualizarContaPreview(){
+      const box = document.getElementById("settingsAccountPreview");
+      const user = pegarUsuario();
+      const cfg = pegarConfiguracoesConta();
+
+      if(!user){
+        box.innerHTML = "Faça login para visualizar sua conta.";
+        return;
+      }
+
+      box.innerHTML = `
+        <strong>Nome:</strong> ${escaparHtml(cfg.nomeExibicao || user.nome)}<br>
+        <strong>E-mail:</strong> ${escaparHtml(user.email)}<br>
+        <strong>Telefone:</strong> ${escaparHtml(cfg.telefone || "Não informado")}<br>
+        <strong>Cidade:</strong> ${escaparHtml(cfg.cidade || "Não informada")}<br>
+        <strong>Tema salvo:</strong> ${escaparHtml(cfg.tema || "apple")}<br>
+        <strong>Tipo:</strong> ${user.isAdmin ? "Administrador" : "Cliente"}
+      `;
+    }
+
+    function preencherConfiguracoesConta(){
+      const cfg = pegarConfiguracoesConta();
+      const user = pegarUsuario();
+      document.getElementById("cfgNomeExibicao").value = cfg.nomeExibicao || user?.nome || "";
+      document.getElementById("cfgTelefone").value = cfg.telefone || "";
+      document.getElementById("cfgCidade").value = cfg.cidade || "";
+      document.getElementById("cfgTema").value = cfg.tema || "apple";
+      document.getElementById("cfgObs").value = cfg.obs || "";
+      atualizarContaPreview();
+    }
+
+    function salvarConfiguracoesConta(){
+      const user = pegarUsuario();
+      if(!user){
+        mostrarSettingsStatus("Faça login para salvar as configurações.", "error");
+        abrirAreaAcesso();
+        return;
+      }
+
+      const cfg = {
+        nomeExibicao: document.getElementById("cfgNomeExibicao").value.trim(),
+        telefone: document.getElementById("cfgTelefone").value.trim(),
+        cidade: document.getElementById("cfgCidade").value.trim(),
+        tema: document.getElementById("cfgTema").value,
+        obs: document.getElementById("cfgObs").value.trim()
+      };
+
+      salvarConfiguracoesBrutas(cfg);
+      atualizarTopo();
+      atualizarContaPreview();
+      mostrarSettingsStatus("Configurações salvas com sucesso.");
+    }
+
+    function sair(){
+      removerUsuario();
+      atualizarTopo();
+      atualizarAdmin();
+      atualizarContaPreview();
+      preencherConfiguracoesConta();
+      carregarProdutos();
+      carregarPedidos();
+      mostrarToastLogin("Você saiu da conta.");
+    }
+
+    function atualizarAdmin(){
+      const user = pegarUsuario();
+      const adminBox = document.getElementById("adminBox");
+      const adminBlocked = document.getElementById("adminBlocked");
+      const pedidosBlocked = document.getElementById("pedidosAdminBlocked");
+      const navAdminLink = document.getElementById("navAdminLink");
+      const adminSection = document.getElementById("admin");
+
+      if(user && user.isAdmin){
+        adminBox.classList.add("show");
+        adminBlocked.classList.add("hidden");
+        pedidosBlocked.classList.add("hidden");
+        navAdminLink.classList.remove("hidden");
+        adminSection.classList.remove("hidden");
+      }else{
+        adminBox.classList.remove("show");
+        adminBlocked.classList.add("hidden");
+        pedidosBlocked.classList.remove("hidden");
+        navAdminLink.classList.add("hidden");
+        adminSection.classList.add("hidden");
+      }
+    }
+
+    function animarBadgeCarrinho(){
+      const badge = document.getElementById("cartBadge");
+      badge.classList.remove("animar");
+      void badge.offsetWidth;
+      badge.classList.add("animar");
+    }
+
+    function destacarCarrinhoTopo(){
+      const cartTop = document.querySelector(".cart-top");
+      if(!cartTop) return;
+      cartTop.style.transition = "transform .35s ease, box-shadow .35s ease";
+      cartTop.style.transform = "scale(1.08)";
+      cartTop.style.boxShadow = "0 18px 34px rgba(0,113,227,.22)";
+      setTimeout(() => {
+        cartTop.style.transform = "";
+        cartTop.style.boxShadow = "";
+      }, 350);
+    }
+
+    function animarProdutoVoandoPeloElemento(imgEl){
+      if(!imgEl) return;
+      const carrinhoTopo = document.querySelector(".cart-top");
+      if(!carrinhoTopo) return;
+
+      const origem = imgEl.getBoundingClientRect();
+      const destino = carrinhoTopo.getBoundingClientRect();
+      const voando = imgEl.cloneNode(true);
+      voando.className = "fly-image";
+      voando.style.left = origem.left + "px";
+      voando.style.top = origem.top + "px";
+      voando.style.width = origem.width + "px";
+      voando.style.height = origem.height + "px";
+      voando.style.opacity = "1";
+      voando.style.transform = "scale(1)";
+      document.body.appendChild(voando);
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          voando.style.left = (destino.left + destino.width / 2 - 22) + "px";
+          voando.style.top = (destino.top + destino.height / 2 - 22) + "px";
+          voando.style.width = "44px";
+          voando.style.height = "44px";
+          voando.style.opacity = "0.2";
+          voando.style.transform = "scale(0.55)";
+        });
+      });
+
+      setTimeout(() => {
+        voando.remove();
+        destacarCarrinhoTopo();
+        animarBadgeCarrinho();
+      }, 1250);
+    }
+
+    async function carregarProdutos(){
+      try{
+        const resposta = await fetch("/api/products");
+        produtosCache = await resposta.json();
+        renderizarProdutosFiltrados();
+      }catch{
+        document.getElementById("listaProdutos").innerHTML = `<div class="no-products">Erro ao carregar produtos.</div>`;
+      }
+    }
+
+    function aplicarFiltrosProdutos(){
+      filtroBuscaAtual = document.getElementById("buscaProduto").value.trim().toLowerCase();
+      filtroPrecoAtual = document.getElementById("filtroPreco").value.trim();
+      filtroOrdenacaoAtual = document.getElementById("ordenacaoProduto").value;
+      renderizarProdutosFiltrados();
+    }
+
+    function limparFiltrosProdutos(){
+      filtroBuscaAtual = "";
+      filtroPrecoAtual = "";
+      filtroOrdenacaoAtual = "relevancia";
+      document.getElementById("buscaProduto").value = "";
+      document.getElementById("filtroPreco").value = "";
+      document.getElementById("ordenacaoProduto").value = "relevancia";
+      renderizarProdutosFiltrados();
+    }
+
+    function filtrarProdutos(produtos){
+      let lista = produtos.filter(produto => {
+        const nome = String(produto.nome || "").toLowerCase();
+        const descricao = String(produto.descricao || "").toLowerCase();
+        const preco = Number(produto.preco || 0);
+
+        const bateBusca = !filtroBuscaAtual || nome.includes(filtroBuscaAtual) || descricao.includes(filtroBuscaAtual);
+        const batePreco = !filtroPrecoAtual || preco <= Number(filtroPrecoAtual);
+        return bateBusca && batePreco;
+      });
+
+      if(filtroOrdenacaoAtual === "menor-preco"){
+        lista.sort((a,b) => Number(a.preco) - Number(b.preco));
+      }else if(filtroOrdenacaoAtual === "maior-preco"){
+        lista.sort((a,b) => Number(b.preco) - Number(a.preco));
+      }else if(filtroOrdenacaoAtual === "nome-az"){
+        lista.sort((a,b) => String(a.nome).localeCompare(String(b.nome)));
+      }
+      return lista;
+    }
+
+    function renderizarProdutosFiltrados(){
+      const lista = document.getElementById("listaProdutos");
+      const user = pegarUsuario();
+      const produtos = filtrarProdutos(produtosCache);
+      lista.innerHTML = "";
+
+      if(!produtos.length){
+        lista.innerHTML = `<div class="no-products">Nenhum produto encontrado com esse filtro.</div>`;
+        return;
+      }
+
+      produtos.forEach(produto => {
+        const precoFormatado = formatarPreco(produto.preco);
+        const produtoEncoded = encodeURIComponent(JSON.stringify(produto));
+        lista.innerHTML += `
+          <div class="card" data-produto-id="${produto.id}">
+            <img src="${escaparHtml(produto.imagem || "")}" alt="${escaparHtml(produto.nome || "")}">
+            <h3>${escaparHtml(produto.nome || "")}</h3>
+            <p>${escaparHtml(produto.descricao || "")}</p>
+            <div class="price">${precoFormatado}</div>
+
+            <button class="btn-dark pressable" onclick="adicionarAoCarrinho(${produto.id})">Adicionar ao carrinho</button>
+            <button class="btn-green pressable" onclick="comprarAgora(${produto.id})">Comprar agora</button>
+
+            ${user && user.isAdmin ? `
+              <div class="admin-actions">
+                <button class="btn btn-primary pressable" onclick="preencherEdicao('${produtoEncoded}')">Editar</button>
+                <button class="btn btn-danger pressable" onclick="excluirProduto(${produto.id})">Excluir</button>
+              </div>
+            ` : ""}
+          </div>
+        `;
+      });
+
+      aplicarEfeitoPressao();
+    }
+
+    async function adicionarAoCarrinho(id){
+      const produto = produtosCache.find(p => Number(p.id) === Number(id));
+      if(!produto){
+        mostrarToastLogin("Produto não encontrado.");
+        return;
+      }
+
+      const carrinho = pegarCarrinho();
+      const itemExistente = carrinho.find(item => Number(item.id) === Number(id));
+
+      if(itemExistente){
+        itemExistente.qtd += 1;
+      }else{
+        carrinho.push({id:produto.id,nome:produto.nome,preco:Number(produto.preco),qtd:1});
+      }
+
+      salvarCarrinho(carrinho);
+      renderizarCarrinho();
+      feedbackPremium();
+
+      const card = document.querySelector(`[data-produto-id="${produto.id}"]`);
+      if(card){
+        card.classList.add("animando");
+        setTimeout(() => card.classList.remove("animando"), 380);
+        const img = card.querySelector("img");
+        animarProdutoVoandoPeloElemento(img);
+      }
+
+      const toast = document.getElementById("toastCarrinho");
+      toast.textContent = `${produto.nome} adicionado ao carrinho`;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1800);
+
+      const cartBox = document.getElementById("cartBox");
+      cartBox.classList.remove("destacado");
+      void cartBox.offsetWidth;
+      cartBox.classList.add("destacado");
+    }
+
+    async function comprarAgora(id){
+      await adicionarAoCarrinho(id);
+      document.getElementById("carrinho").scrollIntoView({behavior:"smooth"});
+    }
+
+    function alterarQtd(id, delta){
+      const carrinho = pegarCarrinho();
+      const item = carrinho.find(i => Number(i.id) === Number(id));
+      if(!item) return;
+
+      item.qtd += delta;
+      if(item.qtd <= 0){
+        salvarCarrinho(carrinho.filter(i => Number(i.id) !== Number(id)));
+      }else{
+        salvarCarrinho(carrinho);
+      }
+      renderizarCarrinho();
+    }
+
+    function removerItem(id){
+      salvarCarrinho(pegarCarrinho().filter(i => Number(i.id) !== Number(id)));
+      renderizarCarrinho();
+    }
+
+    function renderizarCarrinho(){
+      const carrinho = pegarCarrinho();
+      const cartBox = document.getElementById("cartBox");
+      const badge = document.getElementById("cartBadge");
+      const totalItens = carrinho.reduce((acc, item) => acc + item.qtd, 0);
+      badge.textContent = totalItens;
+
+      if(carrinho.length === 0){
+        cartBox.innerHTML = "Seu carrinho está vazio.";
+        return;
+      }
+
+      let total = 0;
+      let html = "";
+      carrinho.forEach(item => {
+        const subtotal = Number(item.preco) * Number(item.qtd);
+        total += subtotal;
+        html += `
+          <div class="cart-item">
+            <div>
+              <strong>${escaparHtml(item.nome)}</strong><br>
+              Qtd: ${item.qtd}<br>
+              Subtotal: ${formatarPreco(subtotal)}
+              <div class="cart-actions">
+                <button class="qty-btn pressable" onclick="alterarQtd(${item.id}, -1)">-</button>
+                <button class="qty-btn pressable" onclick="alterarQtd(${item.id}, 1)">+</button>
+                <button class="remove-btn pressable" onclick="removerItem(${item.id})">Remover</button>
+              </div>
+            </div>
+            <div><strong>${formatarPreco(item.preco)}</strong></div>
+          </div>
+        `;
+      });
+
+      html += `<div class="cart-summary">Total: ${formatarPreco(total)}</div>`;
+      cartBox.innerHTML = html;
+      aplicarEfeitoPressao();
+    }
+
+    async function finalizarCarrinho(){
+      const user = pegarUsuario();
+      const carrinho = pegarCarrinho();
+
+      if(!user){
+        mostrarToastLogin("Faça login para finalizar o pedido", "Entrar", () => {
+          abrirAreaAcesso();
+          document.getElementById("toastLogin").classList.remove("show");
+        });
+        return;
+      }
+
+      if(carrinho.length === 0){
+        mostrarToastLogin("Seu carrinho está vazio.");
+        return;
+      }
+
+      abrirCheckoutModal();
+    }
+
+    function abrirCheckoutModal(){
+      const user = pegarUsuario();
+      const carrinho = pegarCarrinho();
+      const overlay = document.getElementById("checkoutOverlay");
+      const modal = document.getElementById("checkoutModal");
+      const itemsBox = document.getElementById("checkoutItems");
+      const metaBox = document.getElementById("checkoutMeta");
+      const totalBox = document.getElementById("checkoutTotal");
+      const cfg = pegarConfiguracoesConta();
+
+      let total = 0;
+      itemsBox.innerHTML = "";
+      carrinho.forEach(item => {
+        const subtotal = Number(item.preco) * Number(item.qtd);
+        total += subtotal;
+        itemsBox.innerHTML += `
+          <div class="checkout-line">
+            <div><strong>${escaparHtml(item.nome)}</strong><br><span style="color:var(--muted);">Qtd: ${item.qtd}</span></div>
+            <strong>${formatarPreco(subtotal)}</strong>
+          </div>
+        `;
+      });
+
+      metaBox.innerHTML = "";
+      if(user){
+        metaBox.innerHTML += `<div class="checkout-chip">Cliente: ${escaparHtml(cfg.nomeExibicao || user.nome)}</div>`;
+        metaBox.innerHTML += `<div class="checkout-chip">E-mail: ${escaparHtml(user.email)}</div>`;
+      }
+      if(cfg.telefone) metaBox.innerHTML += `<div class="checkout-chip">Telefone: ${escaparHtml(cfg.telefone)}</div>`;
+      if(cfg.cidade) metaBox.innerHTML += `<div class="checkout-chip">Cidade: ${escaparHtml(cfg.cidade)}</div>`;
+
+      totalBox.textContent = formatarPreco(total);
+      overlay.classList.add("show");
+      modal.classList.add("show");
+    }
+
+    function fecharCheckoutModal(){
+      document.getElementById("checkoutOverlay").classList.remove("show");
+      document.getElementById("checkoutModal").classList.remove("show");
+      checkoutPedidoEmAndamento = false;
+    }
+
+    function montarTextoPedido(){
+      const user = pegarUsuario();
+      const cfg = pegarConfiguracoesConta();
+      const carrinho = pegarCarrinho();
+      let total = 0;
+      let texto = `🛒 *Truetech - Novo Pedido*\n\n`;
+      if(user){
+        texto += `👤 Cliente: ${cfg.nomeExibicao || user.nome}\n`;
+        texto += `📧 Email: ${user.email}\n`;
+      }
+      if(cfg.telefone) texto += `📞 Telefone: ${cfg.telefone}\n`;
+      if(cfg.cidade) texto += `📍 Cidade: ${cfg.cidade}\n`;
+      if(cfg.obs) texto += `📝 Observações: ${cfg.obs}\n`;
+      texto += `\n📦 *Itens do pedido:*\n`;
+
+      carrinho.forEach(item => {
+        const subtotal = Number(item.preco) * Number(item.qtd);
+        total += subtotal;
+        texto += `• ${item.nome}\n`;
+        texto += `   Qtd: ${item.qtd} | ${formatarPreco(subtotal)}\n`;
+      });
+
+      texto += `\n💰 *Total:* ${formatarPreco(total)}\n`;
+      return {texto, total};
+    }
+
+    async function copiarPedidoCheckout(){
+      const {texto} = montarTextoPedido();
+      try{
+        await navigator.clipboard.writeText(texto.replace(/\*/g, ""));
+        mostrarToastLogin("Pedido copiado.");
+      }catch{
+        mostrarToastLogin("Não foi possível copiar o pedido.");
+      }
+    }
+
+    async function confirmarPedidoWhatsApp(){
+      if(checkoutPedidoEmAndamento) return;
+
+      const user = pegarUsuario();
+      const carrinho = pegarCarrinho();
+
+      if(!user){
+        fecharCheckoutModal();
+        mostrarToastLogin("Faça login para finalizar o pedido", "Entrar", () => abrirAreaAcesso());
+        return;
+      }
+
+      if(!carrinho.length){
+        mostrarToastLogin("Seu carrinho está vazio.");
+        return;
+      }
+
+      checkoutPedidoEmAndamento = true;
+      const {texto, total} = montarTextoPedido();
+
+      try{
+        const resposta = await fetch("/api/orders", {
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({
+            user_nome: user.nome,
+            user_email: user.email,
+            itens: carrinho,
+            total
+          })
+        });
+
+        const dados = await resposta.json();
+        if(!resposta.ok){
+          checkoutPedidoEmAndamento = false;
+          mostrarToastLogin(dados.erro || "Erro ao salvar pedido.");
+          return;
+        }
+
+        const mensagemFinal = `${texto}🧾 Pedido #${dados.pedidoId}\n\nAguardando confirmação.`;
+        const link = `https://wa.me/555198199736?text=${encodeURIComponent(mensagemFinal)}`;
+
+        salvarCarrinho([]);
+        renderizarCarrinho();
+        carregarPedidos();
+        fecharCheckoutModal();
+        window.open(link, "_blank");
+      }catch{
+        mostrarToastLogin("Erro ao finalizar pedido.");
+      }finally{
+        checkoutPedidoEmAndamento = false;
+      }
+    }
+
+    function preencherEdicao(produtoEncoded){
+      const produto = JSON.parse(decodeURIComponent(produtoEncoded));
+      document.getElementById("produtoId").value = produto.id || "";
+      document.getElementById("produtoNome").value = produto.nome || "";
+      document.getElementById("produtoDescricao").value = produto.descricao || "";
+      document.getElementById("produtoPreco").value = produto.preco || "";
+      document.getElementById("produtoImagem").value = produto.imagem || "";
+      document.getElementById("produtoImagemAtual").value = produto.imagem || "";
+      document.getElementById("btnSalvarProduto").textContent = "Atualizar produto";
+      document.getElementById("admin").scrollIntoView({behavior:"smooth"});
+    }
+
+    function limparFormularioProduto(){
+      document.getElementById("produtoId").value = "";
+      document.getElementById("produtoNome").value = "";
+      document.getElementById("produtoDescricao").value = "";
+      document.getElementById("produtoPreco").value = "";
+      document.getElementById("produtoImagem").value = "";
+      document.getElementById("produtoImagemAtual").value = "";
+      document.getElementById("produtoImagemArquivo").value = "";
+      document.getElementById("btnSalvarProduto").textContent = "Salvar produto";
+    }
+
+    async function salvarProduto(){
+      const user = pegarUsuario();
+      if(!user || !user.isAdmin){
+        mostrarAdminStatus("Acesso negado.", "error");
+        return;
+      }
+
+      const id = document.getElementById("produtoId").value.trim();
+      const nome = document.getElementById("produtoNome").value.trim();
+      const descricao = document.getElementById("produtoDescricao").value.trim();
+      const preco = document.getElementById("produtoPreco").value.trim();
+      const imagem = document.getElementById("produtoImagem").value.trim();
+      const imagemAtual = document.getElementById("produtoImagemAtual").value.trim();
+      const imagemArquivo = document.getElementById("produtoImagemArquivo").files[0];
+
+      const formData = new FormData();
+      formData.append("nome", nome);
+      formData.append("descricao", descricao);
+      formData.append("preco", preco);
+      formData.append("imagem", imagem);
+      formData.append("imagemAtual", imagemAtual);
+      if(imagemArquivo) formData.append("imagemArquivo", imagemArquivo);
+
+      try{
+        const resposta = await fetch(id ? `/api/products/${id}` : "/api/products", {
+          method: id ? "PUT" : "POST",
+          body: formData
+        });
+        const dados = await resposta.json();
+        if(!resposta.ok){
+          mostrarAdminStatus(dados.erro || "Erro ao salvar produto.", "error");
+          return;
+        }
+        mostrarAdminStatus(id ? "Produto atualizado com sucesso." : "Produto cadastrado com sucesso.", "success");
+        limparFormularioProduto();
+        carregarProdutos();
+      }catch{
+        mostrarAdminStatus("Erro ao salvar produto.", "error");
+      }
+    }
+
+    async function excluirProduto(id){
+      const user = pegarUsuario();
+      if(!user || !user.isAdmin){
+        mostrarToastLogin("Acesso negado.");
+        return;
+      }
+      if(!confirm("Deseja excluir este produto?")) return;
+
+      try{
+        const resposta = await fetch(`/api/products/${id}`, {method:"DELETE"});
+        const dados = await resposta.json();
+        if(!resposta.ok){
+          mostrarToastLogin(dados.erro || "Erro ao excluir produto.");
+          return;
+        }
+        carregarProdutos();
+      }catch{
+        mostrarToastLogin("Erro ao excluir produto.");
+      }
+    }
+
+    async function atualizarStatusPedido(id, status){
+      const user = pegarUsuario();
+      if(!user || !user.isAdmin){
+        mostrarToastLogin("Acesso negado.");
+        return;
+      }
+
+      try{
+        const resposta = await fetch(`/api/orders/${id}/status`, {
+          method:"PUT",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({status})
+        });
+        const dados = await resposta.json();
+        if(!resposta.ok){
+          mostrarToastLogin(dados.erro || "Erro ao atualizar status.");
+          return;
+        }
+        carregarPedidos();
+      }catch{
+        mostrarToastLogin("Erro ao atualizar status.");
+      }
+    }
+
+    async function carregarPedidos(){
+      const user = pegarUsuario();
+      const lista = document.getElementById("listaPedidos");
+
+      if(!user || !user.isAdmin){
+        lista.innerHTML = "";
+        return;
+      }
+
+      try{
+        const resposta = await fetch("/api/orders");
+        const pedidos = await resposta.json();
+
+        if(!Array.isArray(pedidos) || !pedidos.length){
+          lista.innerHTML = "Nenhum pedido encontrado.";
+          return;
+        }
+
+        lista.innerHTML = "";
+        pedidos.forEach(pedido => {
+          const itensArray = Array.isArray(pedido.itens) ? pedido.itens : JSON.parse(pedido.itens || "[]");
+          let itensHtml = "";
+          itensArray.forEach(item => {
+            itensHtml += `• ${escaparHtml(item.nome)} — Qtd: ${item.qtd}<br>`;
+          });
+
+          const classeStatus =
+            pedido.status === "pago" ? "badge-pago" :
+            pedido.status === "enviado" ? "badge-enviado" :
+            pedido.status === "entregue" ? "badge-entregue" :
+            "badge-pendente";
+
+          lista.innerHTML += `
+            <div class="order-card">
+              <div class="order-top">
+                <div>
+                  <strong style="font-size:22px;letter-spacing:-0.6px;">Pedido #${pedido.id}</strong>
+                  <div class="order-client">
+                    Cliente: ${escaparHtml(pedido.user_nome)}<br>
+                    E-mail: ${escaparHtml(pedido.user_email)}
+                  </div>
+                </div>
+                <span class="badge ${classeStatus}">${escaparHtml(pedido.status)}</span>
+              </div>
+              <div class="order-meta">
+                <span><strong>Total:</strong> ${formatarPreco(pedido.total)}</span>
+                <span><strong>Data:</strong> ${escaparHtml(String(pedido.criado_em))}</span>
+              </div>
+              <div class="order-items">
+                <strong>Itens do pedido</strong><br>
+                ${itensHtml}
+              </div>
+              <div class="admin-actions">
+                <select onchange="atualizarStatusPedido(${pedido.id}, this.value)">
+                  <option value="pendente" ${pedido.status === "pendente" ? "selected" : ""}>Pendente</option>
+                  <option value="pago" ${pedido.status === "pago" ? "selected" : ""}>Pago</option>
+                  <option value="enviado" ${pedido.status === "enviado" ? "selected" : ""}>Enviado</option>
+                  <option value="entregue" ${pedido.status === "entregue" ? "selected" : ""}>Entregue</option>
+                </select>
+              </div>
+            </div>
+          `;
+        });
+      }catch{
+        lista.innerHTML = "Erro ao carregar pedidos.";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const campoBusca = document.getElementById("buscaProduto");
+      const campoPreco = document.getElementById("filtroPreco");
+      const campoOrdenacao = document.getElementById("ordenacaoProduto");
+      const authOverlay = document.getElementById("authOverlay");
+      const productsOverlay = document.getElementById("productsOverlay");
+
+      campoBusca.addEventListener("input", aplicarFiltrosProdutos);
+      campoPreco.addEventListener("input", aplicarFiltrosProdutos);
+      campoOrdenacao.addEventListener("change", aplicarFiltrosProdutos);
+      authOverlay.addEventListener("click", (e) => {
+        if(e.target === authOverlay) fecharAreaAcesso();
+      });
+      productsOverlay.addEventListener("click", (e) => {
+        if(e.target === productsOverlay) fecharAbaProdutos();
+      });
+
+      aplicarEfeitoPressao();
+    });
+
+    window.onload = () => {
+      atualizarTopo();
+      atualizarAdmin();
+      renderizarCarrinho();
+      carregarProdutos();
+      carregarPedidos();
+      preencherConfiguracoesConta();
+      aplicarEfeitoPressao();
+    };
+  </script>
+
+
+<script>
+async function atualizarLogin() {
+  const email = document.getElementById("novoEmail").value;
+  const novaSenha = document.getElementById("novaSenha").value;
+  const senhaAtual = document.getElementById("senhaAtual").value;
+  const status = document.getElementById("statusLoginUpdate");
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+  if (!usuario) {
+    status.innerText = "Você precisa estar logado.";
+    status.className = "status error show";
+    return;
+  }
+
+  if (!senhaAtual) {
+    status.innerText = "Digite sua senha atual.";
+    status.className = "status error show";
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/update-user", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        id: usuario.id,
+        email,
+        novaSenha,
+        senhaAtual
+      })
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      status.innerText = "Dados atualizados com sucesso.";
+      status.className = "status success show";
+
+      if (email) {
+        usuario.email = email;
+        localStorage.setItem("usuarioLogado", JSON.stringify(usuario));
+      }
+
+    } else {
+      status.innerText = data.erro;
+      status.className = "status error show";
+    }
+
+  } catch {
+    status.innerText = "Erro ao conectar com o servidor.";
+    status.className = "status error show";
+  }
+}
+</script>
+</body>
+</html>
